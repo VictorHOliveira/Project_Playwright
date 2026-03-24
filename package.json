@@ -1,31 +1,10 @@
 {
-  "name": "playwrite-project",
-  "version": "1.0.0",
-  "description": "Victor's Playwright Study Project",
-  "main": "index.js",
-  "scripts": {},
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "devDependencies": {
-    "@playwright/test": "^1.58.2",
-    "@types/node": "^25.5.0"
-  },
-  "directories": {
-    "test": "tests"
-  },
-  "dependencies": {
-    "playwright": "^1.58.2",
-    "playwright-core": "^1.58.2",
-    "undici-types": "^7.18.2"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/VictorHOliveira/Project_Playwright.git"
-  },
-  "bugs": {
-    "url": "https://github.com/VictorHOliveira/Project_Playwright/issues"
-  },
-  "homepage": "https://github.com/VictorHOliveira/Project_Playwright#readme"
+  "scripts": {
+    "test": "npx playwright test --config=./config/playwright.config.cjs",
+    "test:headed": "npx playwright test --headed --config=./config/playwright.config.cjs",
+    "test:debug": "npx playwright test --debug --config=./config/playwright.config.cjs",
+    "report": "npx playwright show-report",
+    "save-auth": "node scripts/save-storage-state.js",
+    "clean": "if exist test-results rmdir /s /q test-results"
+  }
 }

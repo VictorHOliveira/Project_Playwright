@@ -1,9 +1,17 @@
-// save-storage-state.js - Versão com CommonJS
+// scripts/save-storage-state.js
 const { chromium } = require('playwright');
+const path = require('path');
+const fs = require('fs');
 
-// Feito com IA para fazer o accept de cookies ao abrir o 'https://google.com' de forma automatica para o chromium.
-// Executar o comando "node save-storage-state.js" para salvar os cookies.
-// Pode ser trabalhado neste script para aceitar de outras páginas também.
+// Caminho para salvar o estado
+const configDir = path.join(__dirname, '..', 'config');
+const storagePath = path.join(configDir, 'storage-state.json');
+
+// Garantir que a pasta config existe
+if (!fs.existsSync(configDir)) {
+  fs.mkdirSync(configDir, { recursive: true });
+}
+
 (async () => {
   const browser = await chromium.launch({ 
     headless: false,
@@ -16,15 +24,12 @@ const { chromium } = require('playwright');
   console.log('🌐 Abrindo Google...');
   await page.goto('https://google.com');
   
-  // O browser é aberto neste ponto para que você possa fazer o aceite de forma manual, 
-  // mas só será necessário quando o próximo passo, que é o aceite automatico não funcionar.
-  console.log('⚠️ Aceite os cookies manualmente quando aparecer o popup...');
+  console.log('⚠️ Aceite os cookies manualmente se aparecer o popup...');
   console.log('⚠️ Aguardando 10 segundos para você aceitar...');
   
-  // Aguarda tempo para aceitar manualmente
-  await page.waitForTimeout(15000);
+  await page.waitForTimeout(10000);
   
-  // Tenta aceitar automaticamente também
+  // Tenta aceitar automaticamente
   try {
     const cookieButton = page.locator('#L2AGLb');
     if (await cookieButton.isVisible({ timeout: 3000 })) {
@@ -35,12 +40,11 @@ const { chromium } = require('playwright');
     console.log('⚠️ Nenhum botão de cookie encontrado automaticamente');
   }
   
-  // Aguarda mais um pouco para garantir
   await page.waitForTimeout(2000);
   
   // Salva o estado
-  await context.storageState({ path: 'storage-state.json' });
-  console.log('✅ Estado salvo em storage-state.json');
+  await context.storageState({ path: storagePath });
+  console.log(`✅ Estado salvo em ${storagePath}`);
   
   console.log('🎉 Pronto! Agora os testes não vão mais pedir cookies!');
   

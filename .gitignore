@@ -1,8 +1,23 @@
-
-# Playwright
+# Dependências
 node_modules/
-/test-results/
-/playwright-reports/
-/blob-report/
-/playwright/.cache/
-/playwright/.auth/
+package-lock.json
+
+# Resultados dos testes
+test-results/
+playwright-report/
+
+# Configurações sensíveis
+config/storage-state.json
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
